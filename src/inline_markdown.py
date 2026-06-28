@@ -1,4 +1,5 @@
 from textnode import TextNode, TextType
+from links_extract import extract_markdown_images, extract_markdown_links
 
 
 def split_nodes_delimiter(
@@ -7,7 +8,7 @@ def split_nodes_delimiter(
     new_nodes = []
     for old_node in old_nodes:
         if old_node.text_type != TextType.TEXT:
-            new_node.append(old_node)
+            new_nodes.append(old_node)
             continue
         sections = old_node.text.split(delimiter)
         if len(sections) % 2 != 1:
@@ -21,4 +22,48 @@ def split_nodes_delimiter(
             else:
                 split_nodes.append(TextNode(sections[i], text_type))
         new_nodes.extend(split_nodes)
+    return new_nodes
+
+
+def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+        if extract_markdown_images(old_node.text) == []:
+            new_nodes.append(old_node.text)
+            continue
+        images = extract_markdown_images(old_node.text)
+        remaining = old_node.text
+        for image in images:
+            sections = remaining.split(f"![{image[0]}]({image[1]})", 1)
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(TextNode(image[0], TextType.IMAGE, image[1]))
+            remaining = sections[1]
+        if remaining != "":
+            new_nodes.append(TextNode(remaining, TextType.TEXT))
+    return new_nodes
+
+
+def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
+            continue
+        if extract_markdown_links(old_node.text) == []:
+            new_nodes.append(old_node.text)
+            continue
+        images = extract_markdown_links(old_node.text)
+        remaining = old_node.text
+        for image in images:
+            sections = remaining.split(f"[{image[0]}]({image[1]})", 1)
+            if sections[0] != "":
+                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+            new_nodes.append(TextNode(image[0], TextType.LINK, image[1]))
+            remaining = sections[1]
+        if remaining != "":
+            new_nodes.append(TextNode(remaining, TextType.TEXT))
     return new_nodes
