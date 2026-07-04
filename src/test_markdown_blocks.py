@@ -1,0 +1,50 @@
+import unittest
+from markdown_blocks import markdown_to_blocks
+
+
+def test_markdown_to_blocks(self):
+    md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+    blocks = markdown_to_blocks(md)
+    self.assertEqual(
+        blocks,
+        [
+            "This is **bolded** paragraph",
+            "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+            "- This is a list\n- with items",
+        ],
+    )
+
+
+def test_markdown_to_blocks_2(self):
+    md = """
+**Markdown** is a _lightweight_ markup language.
+
+It supports `inline code` and **bold** or _italic_ text easily.
+
+Key features:
+
+- Simple syntax
+- Readable raw text
+- Wide support
+
+Use it for _docs_, **notes**, or `README` files — it's versatile and fast to learn.
+"""
+    blocks = markdown_to_blocks(md)
+    self.assertEqual(
+        blocks,
+        [
+            "**Markdown** is a _lightweight_ markup language.",
+            "It supports `inline code` and **bold** or _italic_ text easily.",
+            "Key features:",
+            "- Simple syntax\n- Readable raw text\n- Wide support",
+            "Use it for _docs_, **notes**, or `README` files — it's versatile and fast to learn.",
+        ],
+    )
