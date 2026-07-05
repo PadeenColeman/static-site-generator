@@ -46,3 +46,12 @@ def block_to_block_type(markdown):
             break
     if valid_quote:
         return BlockType.QUOTE
+    valid_unordered_list = True
+    for line in lines:
+        if line.startswith("- "):
+            continue
+        else:
+            valid_unordered_list = False
+            break
+    if valid_unordered_list:
+        return BlockType.UNORDERED_LIST

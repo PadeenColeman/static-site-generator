@@ -79,6 +79,16 @@ Use it for _docs_, **notes**, or `README` files — it's versatile and fast to l
         block_type = block_to_block_type(md)
         self.assertNotEqual(block_type, BlockType.QUOTE)
 
+    def test_unordered_list_block(self):
+        md = "- sleeping bag\n- socks\n- tent\n- knife"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.UNORDERED_LIST)
+
+    def test_unordered_list_block_neg(self):
+        md = "-milk\n-beer\n-water"
+        block_type = block_to_block_type(md)
+        self.assertNotEqual(block_type, BlockType.UNORDERED_LIST)
+
 
 if __name__ == "__main__":
     unittest.main()
