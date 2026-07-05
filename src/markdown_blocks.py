@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 def markdown_to_blocks(markdown):
     blocks = markdown.split("\n\n")
     clean_blocks = []
@@ -7,3 +10,27 @@ def markdown_to_blocks(markdown):
         else:
             clean_blocks.append(blocks[i].strip())
     return clean_blocks
+
+
+class BlockType(Enum):
+    PARAGRAPH = "paragraph"
+    HEADING = "heading"
+    CODE = "code"
+    QUOTE = "quote"
+    UNORDERED_LIST = "unordered_list"
+    ORDERED_LIST = "ordered_list"
+
+
+def block_to_block_type(markdown):
+    number_of_hashes = 0
+    i = 0
+    while len(markdown) > i and markdown[i] == "#":
+        number_of_hashes += 1
+        i += 1
+    if (
+        number_of_hashes >= 1
+        and number_of_hashes <= 6
+        and i < len(markdown)
+        and markdown[i] == " "
+    ):
+        return BlockType.HEADING

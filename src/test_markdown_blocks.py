@@ -1,5 +1,5 @@
 import unittest
-from markdown_blocks import markdown_to_blocks
+from markdown_blocks import markdown_to_blocks, block_to_block_type
 
 
 def test_markdown_to_blocks(self):
@@ -48,3 +48,9 @@ Use it for _docs_, **notes**, or `README` files — it's versatile and fast to l
             "Use it for _docs_, **notes**, or `README` files — it's versatile and fast to learn.",
         ],
     )
+
+
+def test_heading_block(self):
+    md = "## Test"
+    block_type = block_to_block_type(md)
+    self.assertEqual(block_type, BlockType.HEADING)
