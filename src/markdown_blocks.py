@@ -34,3 +34,5 @@ def block_to_block_type(markdown):
         and markdown[i] == " "
     ):
         return BlockType.HEADING
+    if markdown.startswith("```\n") and markdown.endswith("```"):
+        return BlockType.CODE
