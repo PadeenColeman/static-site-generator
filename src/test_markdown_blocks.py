@@ -1,9 +1,10 @@
 import unittest
-from markdown_blocks import markdown_to_blocks, block_to_block_type
+from markdown_blocks import markdown_to_blocks, block_to_block_type, BlockType
 
 
-def test_markdown_to_blocks(self):
-    md = """
+class TestTextNode(unittest.TestCase):
+    def test_markdown_to_blocks(self):
+        md = """
 This is **bolded** paragraph
 
 This is another paragraph with _italic_ text and `code` here
@@ -11,20 +12,19 @@ This is the same paragraph on a new line
 
 - This is a list
 - with items
-"""
-    blocks = markdown_to_blocks(md)
-    self.assertEqual(
-        blocks,
-        [
-            "This is **bolded** paragraph",
-            "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
-            "- This is a list\n- with items",
-        ],
-    )
+    """
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
 
-
-def test_markdown_to_blocks_2(self):
-    md = """
+    def test_markdown_to_blocks_2(self):
+        md = """
 **Markdown** is a _lightweight_ markup language.
 
 It supports `inline code` and **bold** or _italic_ text easily.
@@ -36,21 +36,29 @@ Key features:
 - Wide support
 
 Use it for _docs_, **notes**, or `README` files — it's versatile and fast to learn.
-"""
-    blocks = markdown_to_blocks(md)
-    self.assertEqual(
-        blocks,
-        [
-            "**Markdown** is a _lightweight_ markup language.",
-            "It supports `inline code` and **bold** or _italic_ text easily.",
-            "Key features:",
-            "- Simple syntax\n- Readable raw text\n- Wide support",
-            "Use it for _docs_, **notes**, or `README` files — it's versatile and fast to learn.",
-        ],
-    )
+    """
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "**Markdown** is a _lightweight_ markup language.",
+                "It supports `inline code` and **bold** or _italic_ text easily.",
+                "Key features:",
+                "- Simple syntax\n- Readable raw text\n- Wide support",
+                "Use it for _docs_, **notes**, or `README` files — it's versatile and fast to learn.",
+            ],
+        )
+
+    def test_heading_block(self):
+        md = "## Test"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.HEADING)
+
+    def test_heading_block_neg(self):
+        md = "####### Test"
+        block_type = block_to_block_type(md)
+        self.assertNotEqual(block_type, BlockType.HEADING)
 
 
-def test_heading_block(self):
-    md = "## Test"
-    block_type = block_to_block_type(md)
-    self.assertEqual(block_type, BlockType.HEADING)
+if __name__ == "__main__":
+    unittest.main()
