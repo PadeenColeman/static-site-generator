@@ -36,3 +36,13 @@ def block_to_block_type(markdown):
         return BlockType.HEADING
     if markdown.startswith("```\n") and markdown.endswith("```"):
         return BlockType.CODE
+    lines = markdown.split("\n")
+    valid_quote = True
+    for line in lines:
+        if line.startswith(">"):
+            continue
+        else:
+            valid_quote = False
+            break
+    if valid_quote:
+        return BlockType.QUOTE

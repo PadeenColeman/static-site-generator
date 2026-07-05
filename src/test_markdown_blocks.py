@@ -69,6 +69,16 @@ Use it for _docs_, **notes**, or `README` files — it's versatile and fast to l
         block_type = block_to_block_type(md)
         self.assertNotEqual(block_type, BlockType.CODE)
 
+    def test_quote_block(self):
+        md = ">And Homer said\n>More energy."
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.QUOTE)
+
+    def test_quote_block_neg(self):
+        md = ">And Homer said\n<More energy you fools."
+        block_type = block_to_block_type(md)
+        self.assertNotEqual(block_type, BlockType.QUOTE)
+
 
 if __name__ == "__main__":
     unittest.main()
