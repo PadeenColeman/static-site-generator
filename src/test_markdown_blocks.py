@@ -89,6 +89,26 @@ Use it for _docs_, **notes**, or `README` files — it's versatile and fast to l
         block_type = block_to_block_type(md)
         self.assertNotEqual(block_type, BlockType.UNORDERED_LIST)
 
+    def test_ordered_list_block(self):
+        md = "1. sleeping bag\n2. socks\n3. tent\n4. knife"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.ORDERED_LIST)
+
+    def test_ordered_list_block_neg(self):
+        md = "1.milk\n2.beer\n3.water"
+        block_type = block_to_block_type(md)
+        self.assertNotEqual(block_type, BlockType.ORDERED_LIST)
+
+    def test_ordered_list_block_neg(self):
+        md = "1. milk\n3. beer\n4. water"
+        block_type = block_to_block_type(md)
+        self.assertNotEqual(block_type, BlockType.ORDERED_LIST)
+
+    def test_paragraph_block(self):
+        md = "I am just a paragraph."
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.PARAGRAPH)
+
 
 if __name__ == "__main__":
     unittest.main()

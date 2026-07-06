@@ -55,3 +55,14 @@ def block_to_block_type(markdown):
             break
     if valid_unordered_list:
         return BlockType.UNORDERED_LIST
+    expected_number = 1
+    valid_ordered_list = True
+    for line in lines:
+        if line.startswith(f"{expected_number}. "):
+            expected_number += 1
+        else:
+            valid_ordered_list = False
+            break
+    if valid_ordered_list:
+        return BlockType.ORDERED_LIST
+    return BlockType.PARAGRAPH
