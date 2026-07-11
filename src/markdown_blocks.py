@@ -1,4 +1,6 @@
 from enum import Enum
+from inline_markdown import text_to_textnodes
+from textnode import text_node_to_html_node
 
 
 def markdown_to_blocks(markdown):
@@ -66,3 +68,30 @@ def block_to_block_type(markdown):
     if valid_ordered_list:
         return BlockType.ORDERED_LIST
     return BlockType.PARAGRAPH
+
+
+def markdown_to_html_node(markdown):
+    blocks = markdown_to_blocks(markdown)
+    children = []
+    for block in blocks:
+        block_type = block_to_block_type(block)
+        if block_type == BlockType.PARAGRAPH:
+            # build a paragraph node
+        elif block_type == BlockType.HEADING:
+            # build a heading node
+        elif block_type == BlockType.QUOTE:
+            # build a quote node
+        elif block_type == BlockType.CODE:
+            # build a code node
+        elif block_type == BlockType.UNORDERED_LIST:
+            # build an unordered list node
+        elif block_type == BlockType.ORDERED_LIST:
+            # build an ordered list node
+        children.append(node)
+
+def text_to_children(text):
+    text_nodes = text_to_textnodes(text)
+    html_nodes = []
+    for node in text_nodes:
+        html_nodes.append(text_node_to_html_node(node))
+    return html_nodes
