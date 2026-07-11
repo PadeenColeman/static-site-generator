@@ -79,8 +79,7 @@ def markdown_to_html_node(markdown):
         if block_type == BlockType.PARAGRAPH:
             children.append(paragraph_to_html_node(block))
         elif block_type == BlockType.HEADING:
-            pass
-            # build a heading node
+            children.append(heading_to_html_node(block))
         elif block_type == BlockType.QUOTE:
             pass
             # build a quote node
@@ -109,3 +108,16 @@ def paragraph_to_html_node(block):
     paragraph = " ".join(lines)
     children = text_to_children(paragraph)
     return ParentNode("p", children)
+
+
+def heading_to_html_node(block):
+    level = 0
+    for char in block:
+        if char == "#":
+            level += 1
+        else:
+            break
+    # now 'level' tells you h1..h6
+    text = block[level + 1 :]  # skip the #s AND the space
+    children = text_to_children(text)
+    return ParentNode(f"h{level}", children)
