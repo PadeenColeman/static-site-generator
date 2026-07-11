@@ -131,7 +131,7 @@ This is another paragraph with _italic_ text and `code` here
             "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
         )
 
-    def test_headings(self):
+    def test_headings2(self):
         md = "## This is a level 2 heading"
 
         node = markdown_to_html_node(md)
@@ -139,6 +139,30 @@ This is another paragraph with _italic_ text and `code` here
         self.assertEqual(
             html,
             "<div><h2>This is a level 2 heading</h2></div>",
+        )
+
+    def test_headings5(self):
+        md = "##### This is a level 5 heading"
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><h5>This is a level 5 heading</h5></div>",
+        )
+
+    def test_quotes(self):
+        md = """
+> This is a quote
+> over several lines
+> about some code
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><blockquote>This is a quote over several lines about some code</blockquote></div>",
         )
 
 

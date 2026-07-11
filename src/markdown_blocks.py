@@ -81,8 +81,7 @@ def markdown_to_html_node(markdown):
         elif block_type == BlockType.HEADING:
             children.append(heading_to_html_node(block))
         elif block_type == BlockType.QUOTE:
-            pass
-            # build a quote node
+            children.append(quote_to_html_node(block))
         elif block_type == BlockType.CODE:
             pass
             # build a code node
@@ -121,3 +120,16 @@ def heading_to_html_node(block):
     text = block[level + 1 :]  # skip the #s AND the space
     children = text_to_children(text)
     return ParentNode(f"h{level}", children)
+
+
+def quote_to_html_node(block):
+    lines = block.split("\n")
+    new_lines = []
+    for line in lines:
+        # strip the leading '>' and surrounding whitespace from 'line'
+        # then append the cleaned text to new_lines
+        stripped = line.lstrip(">").strip()
+        new_lines.append(stripped)
+    content = " ".join(new_lines)
+    children = text_to_children(content)
+    return ParentNode("blockquote", children)
