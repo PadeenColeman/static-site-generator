@@ -1,5 +1,10 @@
 import unittest
-from markdown_blocks import markdown_to_blocks, block_to_block_type, BlockType
+from markdown_blocks import (
+    markdown_to_blocks,
+    block_to_block_type,
+    BlockType,
+    markdown_to_html_node,
+)
 
 
 class TestTextNode(unittest.TestCase):
@@ -108,6 +113,23 @@ Use it for _docs_, **notes**, or `README` files — it's versatile and fast to l
         md = "I am just a paragraph."
         block_type = block_to_block_type(md)
         self.assertEqual(block_type, BlockType.PARAGRAPH)
+
+    def test_paragraphs(self):
+        md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+        )
 
 
 if __name__ == "__main__":

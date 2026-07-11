@@ -79,16 +79,22 @@ def markdown_to_html_node(markdown):
         if block_type == BlockType.PARAGRAPH:
             children.append(paragraph_to_html_node(block))
         elif block_type == BlockType.HEADING:
+            pass
             # build a heading node
         elif block_type == BlockType.QUOTE:
+            pass
             # build a quote node
         elif block_type == BlockType.CODE:
+            pass
             # build a code node
         elif block_type == BlockType.UNORDERED_LIST:
+            pass
             # build an unordered list node
         elif block_type == BlockType.ORDERED_LIST:
+            pass
             # build an ordered list node
     return ParentNode("div", children)
+
 
 def text_to_children(text):
     text_nodes = text_to_textnodes(text)
@@ -96,6 +102,7 @@ def text_to_children(text):
     for node in text_nodes:
         html_nodes.append(text_node_to_html_node(node))
     return html_nodes
+
 
 def paragraph_to_html_node(block):
     lines = block.split("\n")
