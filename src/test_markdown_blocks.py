@@ -165,6 +165,22 @@ This is another paragraph with _italic_ text and `code` here
             "<div><blockquote>This is a quote over several lines about some code</blockquote></div>",
         )
 
+    def test_unordered_list(self):
+        md = """
+- Milk
+- Eggs
+- Apples
+- Beer
+- Butter
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><ul><li>Milk</li><li>Eggs</li><li>Apples</li><li>Beer</li><li>Butter</li></ul></div>",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

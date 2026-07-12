@@ -86,8 +86,7 @@ def markdown_to_html_node(markdown):
             pass
             # build a code node
         elif block_type == BlockType.UNORDERED_LIST:
-            pass
-            # build an unordered list node
+            children.append(ul_to_html_node(block))
         elif block_type == BlockType.ORDERED_LIST:
             pass
             # build an ordered list node
@@ -133,3 +132,14 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
+
+
+def ul_to_html_node(block):
+    lines = block.split("\n")
+    list_items = []
+    for line in lines:
+        # strip the leading '-' and surrounding whitespace from 'line'
+        stripped = line.lstrip("-").strip()
+        children = text_to_children(stripped)  # inline parsing per item
+        list_items.append(ParentNode("li", children))
+    return ParentNode("ul", list_items)
