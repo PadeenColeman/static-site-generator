@@ -1,6 +1,6 @@
 from enum import Enum
 from inline_markdown import text_to_textnodes
-from textnode import text_node_to_html_node
+from textnode import text_node_to_html_node, TextNode, TextType
 from htmlnode import ParentNode
 
 
@@ -83,8 +83,7 @@ def markdown_to_html_node(markdown):
         elif block_type == BlockType.QUOTE:
             children.append(quote_to_html_node(block))
         elif block_type == BlockType.CODE:
-            pass
-            # build a code node
+            children.append(code_to_html_node(block))
         elif block_type == BlockType.UNORDERED_LIST:
             children.append(ul_to_html_node(block))
         elif block_type == BlockType.ORDERED_LIST:
@@ -153,3 +152,11 @@ def ol_to_html_node(block):
         children = text_to_children(stripped)  # inline parsing per item
         list_items.append(ParentNode("li", children))
     return ParentNode("ol", list_items)
+
+
+def code_to_html_node(block):
+    stripped = block[4:-3]
+    raw_node = TextNode(stripped, TextType.TEXT)  # or whatever your TEXT type is called
+    child = text_node_to_html_node(raw_node)
+    code = ParentNode("code", [child])
+    return ParentNode("pre", [code])
