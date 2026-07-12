@@ -181,6 +181,22 @@ This is another paragraph with _italic_ text and `code` here
             "<div><ul><li>Milk</li><li>Eggs</li><li>Apples</li><li>Beer</li><li>Butter</li></ul></div>",
         )
 
+    def test_ordered_list(self):
+        md = """
+1. Milk
+2. Eggs
+3. Apples
+4. Beer
+5. Butter
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><ol><li>Milk</li><li>Eggs</li><li>Apples</li><li>Beer</li><li>Butter</li></ol></div>",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

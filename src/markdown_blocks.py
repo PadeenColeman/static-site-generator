@@ -88,8 +88,7 @@ def markdown_to_html_node(markdown):
         elif block_type == BlockType.UNORDERED_LIST:
             children.append(ul_to_html_node(block))
         elif block_type == BlockType.ORDERED_LIST:
-            pass
-            # build an ordered list node
+            children.append(ol_to_html_node(block))
     return ParentNode("div", children)
 
 
@@ -143,3 +142,14 @@ def ul_to_html_node(block):
         children = text_to_children(stripped)  # inline parsing per item
         list_items.append(ParentNode("li", children))
     return ParentNode("ul", list_items)
+
+
+def ol_to_html_node(block):
+    lines = block.split("\n")
+    list_items = []
+    for line in lines:
+        # strip the leading number and surrounding whitespace from 'line'
+        stripped = line.split(". ", 1)[1]
+        children = text_to_children(stripped)  # inline parsing per item
+        list_items.append(ParentNode("li", children))
+    return ParentNode("ol", list_items)
